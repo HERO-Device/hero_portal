@@ -1,0 +1,5 @@
+calibration_id,session_id,sensor_type,sampling_rate_hz,calibration_timestamp,calibration_params,sensor_status,hardware_version,firmware_version,notes
+6fce83a7-d152-4838-8a0a-add37c15c331,e00a334f-c967-444f-8dd7-4d918464730d,mpu6050,100,2026-02-28 16:11:27.387009+00:00,"{'mode': 'session', 'i2c_bus': 1, 'gyro_range': 0, 'accel_range': 0, 'i2c_address': '0x68'}",active,,,
+ed0f60ab-2ebd-46fd-9904-08ec298d5ee2,e00a334f-c967-444f-8dd7-4d918464730d,max30102,100,2026-02-28 16:11:28.439470+00:00,"{'mode': 'session', 'i2c_bus': 1, 'realtime': False, 'buffer_size': 100, 'i2c_address': '0x57'}",active,,,
+536ba695-3d3a-4ebd-ad3f-1c44db1aac12,e00a334f-c967-444f-8dd7-4d918464730d,eeg,200,2026-02-28 16:11:31.909338+00:00,"{'mode': 'session', 'board_id': 1, 'channels': 4, 'realtime': False}",active,,,
+f1a8e687-899c-49a4-9f66-901acd4ff3ec,e00a334f-c967-444f-8dd7-4d918464730d,eye_tracking,,2026-02-28 16:11:41.250189+00:00,{},failed,,,"RuntimeError: Failed to connect to device, error message: X_LINK_DEVICE_ALREADY_IN_USE"

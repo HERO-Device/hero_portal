@@ -1,0 +1,26 @@
+HERO Session Export
+===================
+Exported at  : 2026-03-02T18:41:06.810632+00:00
+Session ID   : e00a334f-c967-444f-8dd7-4d918464730d
+Anon ID      : testing_51-60_1
+Age range    : 51-60
+Anonymised at: 2026-03-02 18:18:30.836463+00:00
+Session start: 2026-02-28 16:08:19.332378+00:00
+Session end  : 2026-02-28 16:14:48.032627+00:00
+Notes        : Consultation cveu901zh8o5pnm
+
+Sensor columns in sensor_timeseries.csv
+----------------------------------------
+  eeg_*       OpenBCI Ganglion (~200 Hz)
+  accel_*     MPU6050 accelerometer (~75 Hz, forward-filled)
+  gyro_*      MPU6050 gyroscope (~75 Hz, forward-filled)
+  hr_*        MAX30102 heart rate (~84 Hz, forward-filled)
+  ox_*        MAX30102 oximeter (~84 Hz, forward-filled)
+  eye_*       ArduCam gaze tracking (forward-filled)
+
+Files
+-----
+  session_info.csv                    1 row(s)
+  game_results.csv                    4 row(s)
+  calibration.csv                     4 row(s)
+  sensor_timeseries.csv               91788 row(s)
