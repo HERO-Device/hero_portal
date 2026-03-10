@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HERO — Session Viewer</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- Loading screen -->
+<div id="loading-screen">
+  <div class="loading-logo">HERO</div>
+  <div class="loading-bar-bg"><div class="loading-bar-fill"></div></div>
+  <div class="loading-msg" id="loading-msg">Loading session data…</div>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo">HERO <span>/ Session Viewer</span></div>
+    <div class="session-badge" id="hdr-anon">—</div>
+  </div>
+  <div class="header-right">
+    <div class="header-stat">
+      <span class="val" id="hdr-age">—</span>
+      <span class="lbl">Age Range</span>
+    </div>
+    <div class="header-stat">
+      <span class="val" id="hdr-date">—</span>
+      <span class="lbl">Date</span>
+    </div>
+    <div class="header-stat">
+      <span class="val" id="hdr-dur">—</span>
+      <span class="lbl">Duration</span>
+    </div>
+  </div>
+</div>
+
+<!-- Nav -->
+<div class="nav">
+  <div class="nav-tab active" data-section="overview">Overview</div>
+  <div class="nav-tab" data-section="sensors">Sensors</div>
+  <div class="nav-tab" data-section="games">Games</div>
+</div>
+
+<!-- Main content -->
+<div class="main">
+
+  <!-- ── OVERVIEW ──────────────────────────────────────────────────────────── -->
+  <div class="section active" id="section-overview">
+
+    <div class="card mb-16">
+      <div class="card-title"><span class="dot"></span>Session Timeline</div>
+      <div class="timeline" id="ov-timeline"></div>
+      <div class="legend" id="ov-legend"></div>
+    </div>
+
+    <div class="grid-4 mb-16" id="ov-game-cards"></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--blue)"></span>Session Info</div>
+        <div id="ov-session-info"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--orange)"></span>Sensor Calibration</div>
+        <div class="sensor-pills" id="ov-sensor-pills"></div>
+        <table class="data-table" id="ov-cal-table">
+          <thead>
+            <tr><th>Sensor</th><th>Status</th><th>Rate (Hz)</th><th>Notes</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── SENSORS ───────────────────────────────────────────────────────────── -->
+  <div class="section" id="section-sensors">
+
+    <div class="sensor-pills" id="sen-pills"></div>
+    <div class="card mb-16">
+      <div class="card-title"><span class="dot"></span>Session Timeline</div>
+      <div class="timeline" id="sen-timeline"></div>
+    </div>
+
+    <div class="card span-2 mb-16">
+      <div class="card-title"><span class="dot"></span>EEG — 4-Channel (OpenBCI Ganglion)</div>
+      <div class="chart-wrap h220"><canvas id="chart-eeg"></canvas></div>
+    </div>
+
+    <div class="grid-2 mb-16">
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--blue)"></span>Accelerometer XYZ (MPU6050)</div>
+        <div class="chart-wrap h160"><canvas id="chart-accel"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--blue)"></span>Gyroscope XYZ (MPU6050)</div>
+        <div class="chart-wrap h160"><canvas id="chart-gyro"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-16">
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--red)"></span>Heart Rate Raw Signal (MAX30102)</div>
+        <div class="chart-wrap h160"><canvas id="chart-hr"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--red)"></span>Oximeter — Red &amp; IR (MAX30102)</div>
+        <div class="chart-wrap h160"><canvas id="chart-ox"></canvas></div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-16">
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--orange)"></span>Eye Gaze — X &amp; Y (ArduCam)</div>
+        <div class="chart-wrap h160"><canvas id="chart-eye"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="dot" style="background:var(--orange)"></span>Eye Gaze Scatter</div>
+        <div class="chart-wrap h160"><canvas id="chart-eye-scatter"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card mb-16">
+      <div class="card-title"><span class="dot" style="background:var(--green)"></span>Cross-Game Sensor Overlay</div>
+      <div class="overlay-controls">
+        <label for="overlay-channel-select">Channel:</label>
+        <select id="overlay-channel-select"></select>
+      </div>
+      <div class="chart-wrap h220"><canvas id="chart-overlay"></canvas></div>
+    </div>
+
+  </div>
+
+  <!-- ── GAMES ─────────────────────────────────────────────────────────────── -->
+  <div class="section" id="section-games">
+    <div class="game-tabs" id="game-tabs"></div>
+    <div id="game-panels"></div>
+  </div>
+
+</div>
+
+<!-- Scripts — order matters -->
+<script src="config.js"></script>
+<script src="utils/data.js"></script>
+<script src="utils/charts.js"></script>
+<script src="pages/overview.js"></script>
+<script src="pages/sensors.js"></script>
+<script src="pages/games.js"></script>
+<script>
+  // ── Bootstrap ─────────────────────────────────────────────────────────────
+  (async () => {
+    const loadMsg = document.getElementById('loading-msg');
+
+    try {
+      loadMsg.textContent = 'Loading session metadata…';
+      const meta = await loadSessionMeta();
+
+      loadMsg.textContent = 'Loading sensor timeseries…';
+      const sensor = await loadSensorData(meta.sensorStart, meta.sensorCutoffMs);
+
+      loadMsg.textContent = 'Rendering…';
+
+      renderOverview(meta);
+      // Sensors and games render on first tab visit to avoid doing work upfront
+      let sensorsReady = false;
+      let gamesReady   = false;
+
+      document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+          tab.classList.add('active');
+          const sec = document.getElementById('section-' + tab.dataset.section);
+          sec.classList.add('active');
+
+          if (tab.dataset.section === 'sensors' && !sensorsReady) {
+            sensorsReady = true;
+            renderSensors(sensor, meta);
+            renderCrossGameOverlay(sensor, meta.games);
+          }
+          if (tab.dataset.section === 'games' && !gamesReady) {
+            gamesReady = true;
+            renderGames(meta, sensor);
+          }
+        });
+      });
+
+      document.getElementById('loading-screen').style.display = 'none';
+
+    } catch (err) {
+      loadMsg.textContent = `Error: ${err.message}`;
+      loadMsg.style.color = '#f06a6a';
+      console.error(err);
+    }
+  })();
+</script>
+
+</body>
+</html>
